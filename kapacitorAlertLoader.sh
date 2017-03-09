@@ -1,32 +1,38 @@
 #!/bin/bash
 defineTasks() {
   for file in $@; do
-    handleError $(kapacitor define "$(${file%\.*})" -dbrp "$DATABASE.$RETENTION_POLICY" -type $(getType $file) -tick $file 2>&1 1> /dev/null)
+    task=${file%\.*}
+    handleError $(kapacitor define "$task" -dbrp "$DATABASE.$RETENTION_POLICY" -type $(getType $file) -tick $file 2>&1 1> /dev/null)
   done;
 }
 
 defineTasksFromTemplates() {
   for file in $@; do
-    handleError $(kapacitor define "${file%\.*}" -dbrp "$DATABASE.$RETENTION_POLICY" -type $(getType $file) -template ${file%\.*} -vars $VARS -tick $file 2>&1 1> /dev/null)
+    task=${file%\.*}
+    handleError $(kapacitor define "$task" -dbrp "$DATABASE.$RETENTION_POLICY" -type $(getType $file) -template $task -vars $VARS -tick $file 2>&1 1> /dev/null)
   done;
 }
 
 defineTemplates() {
-  for file in $@; do \
-    handleError $(kapacitor define-template "${file%\.*}" -type $(getType $file) -tick $file 2>&1 1> /dev/null)
+  for file in $@; do
+    template=${file%\.*}
+    handleError $(kapacitor define-template "$template" -type $(getType $file) -tick $file 2>&1 1> /dev/null)
   done;
 }
 
 enableTasks() {
-  handleError $(kapacitor enable "$1" 2>&1 >/dev/null)
+  task=${1%\.*}
+  handleError $(kapacitor enable "$task" 2>&1 >/dev/null)
 }
 
 disableTasks() {
-  handleError $(kapacitor disable "$1" 2>&1 >/dev/null)
+  task=${1%\.*}
+  handleError $(kapacitor disable "$task" 2>&1 >/dev/null)
 }
 
 reloadTasks() {
-  handleError $(kapacitor reload "$1" 2>&1 >/dev/null)
+  task=${1%\.*}
+  handleError $(kapacitor reload "$task" 2>&1 >/dev/null)
 }
 
 getType() {
@@ -36,6 +42,7 @@ getType() {
 handleError() {
   if [[ "$1" == *"err"* ||  "$1" == *"unknown"* ]]; then exit 1; fi
 }
+
 
 set -x #echo on
 [ -z "$FUNCTION" ] && echo "Need to set FUNCTION for kapacitorAlertLoader to execute. Ex. defineTasks, defineTemplates, defineTasksFromTemplates, enableTasks, disableTasks, or reloadTasks" && exit 1;
