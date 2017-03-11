@@ -1,20 +1,20 @@
 #!/bin/bash
 defineTasks() {
-  for file in $@; do
+  for file in "$@"; do
     task=${file%\.*}
     handleError $(kapacitor define "$task" -dbrp "$DATABASE.$RETENTION_POLICY" -type $(getType $file) -tick $file 2>&1 1> /dev/null)
   done;
 }
 
 defineTasksFromTemplates() {
-  for file in $@; do
+  for file in "$@"; do
     task=${file%\.*}
     handleError $(kapacitor define "$task" -dbrp "$DATABASE.$RETENTION_POLICY" -type $(getType $file) -template $task -vars $VARS -tick $file 2>&1 1> /dev/null)
   done;
 }
 
 defineTemplates() {
-  for file in $@; do
+  for file in "$@"; do
     template=${file%\.*}
     handleError $(kapacitor define-template "$template" -type $(getType $file) -tick $file 2>&1 1> /dev/null)
   done;
