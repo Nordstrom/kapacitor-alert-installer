@@ -8,8 +8,8 @@ defineTasks() {
 
 defineTasksFromTemplates() {
   for file in "$@"; do
-    task=${file%\.*}
-    handleError $(kapacitor define "$task" -dbrp "$DATABASE.$RETENTION_POLICY" -type $(getType $file) -template $task -vars $VARS -tick $file 2>&1 1> /dev/null)
+    task="${file%\.*}_${VARS%\.*}"
+    handleError $(kapacitor define "$task" -dbrp "$DATABASE.$RETENTION_POLICY" -type $(getType $file) -template $task -vars $2 -tick $file 2>&1 1> /dev/null)
   done;
 }
 
@@ -49,7 +49,7 @@ set -x #echo on
 [ -z "$ALERT" ] && echo "Need to set ALERT. Ex. scriptname.tick, prefix*, or *suffix.tick" && exit 1;
 # defineTempaltes
 if [[ $FUNCTION = "defineTemplates" ]]; then
-  defineTemplates $ALERT
+  defineTemplates $ALERT $VARS
 # enableTasks
 elif [[ $FUNCTION = "enableTasks" ]]; then
   enableTasks $ALERT
