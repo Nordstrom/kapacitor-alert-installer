@@ -40,7 +40,7 @@ getType() {
 }
 
 handleError() {
-  if [[ "$1" == *"err"* ||  "$1" == *"unknown"* ]]; then exit 1; fi
+  if [[ "$1" == *"err"* ||  "$1" == *"Error"* || "$1" == *"unknown"* ]]; then exit 1; fi
 }
 
 
