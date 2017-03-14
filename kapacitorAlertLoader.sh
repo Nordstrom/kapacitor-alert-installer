@@ -48,7 +48,7 @@ getType() {
 }
 
 handleError() {
-  if [[ "$1" == *"err"* || "$1" == *"failed"* || "$1" == *"unknown"* ]]; then exit 1; fi
+  if [[ "$1" == *"err"* || "$1" == *"failed"* || "$1" == *"unknown"* || "$1" == *"invalid response"* ]]; then exit 1; fi
 }
 
 set -x #echo on
