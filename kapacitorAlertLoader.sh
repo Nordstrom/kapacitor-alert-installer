@@ -54,13 +54,13 @@ set -x #echo on
 if [[ $FUNCTION = "defineTemplates" ]]; then
   defineTemplates $ALERT
 elif [[ $FUNCTION = "enableTasks" ]]; then
-  enableTasks $ALERT
+  enableTasks "$ALERT"
 elif [[ $FUNCTION = "deleteTasks" ]]; then
   deleteTasks "$ALERT"
 elif [[ $FUNCTION = "deleteTemplates" ]]; then
   deleteTemplates "$ALERT"
 elif [[ $FUNCTION = "disableTasks" ]]; then
-  disableTasks $ALERT
+  disableTasks "$ALERT"
 else
   [ -z "$DATABASE" ] && echo "Need to set DATABASE alert will target" && exit 1;
   [ -z "$RETENTION_POLICY" ] && echo "Need to set RETENTION_POLICY alert will have" && exit 1;
