@@ -29,18 +29,15 @@ deleteTemplates() {
 }
 
 enableTasks() {
-  task=${1%\.*}
-  handleError $(kapacitor enable "$task" 2>&1 >/dev/null)
+  handleError $(kapacitor enable "$1" 2>&1 >/dev/null)
 }
 
 disableTasks() {
-  task=${1%\.*}
-  handleError $(kapacitor disable "$task" 2>&1 >/dev/null)
+  handleError $(kapacitor disable "$1" 2>&1 >/dev/null)
 }
 
 reloadTasks() {
-  task=${1%\.*}
-  handleError $(kapacitor reload "$task" 2>&1 >/dev/null)
+  handleError $(kapacitor reload "$1" 2>&1 >/dev/null)
 }
 
 getType() {
